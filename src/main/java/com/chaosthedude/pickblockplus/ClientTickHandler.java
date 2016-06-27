@@ -8,15 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -64,15 +61,18 @@ public class ClientTickHandler {
 			return;
 		}
 
-		RayTraceResult target = mc.objectMouseOver;
+		MovingObjectPosition target = mc.objectMouseOver;
 		if (target == null) {
 			return;
 		}
 
 		if (player.capabilities.isCreativeMode) {
-			ForgeHooks.onPickBlock(target, player, mc.theWorld);
-			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
-			return;
+			if (!ForgeHooks.onPickBlock(target, player, mc.theWorld)) {
+				return;
+			}
+
+			int slot = player.inventoryContainer.inventorySlots.size() - 9 + player.inventory.currentItem;
+			mc.playerController.sendSlotPacket(player.inventory.getStackInSlot(player.inventory.currentItem), slot);
 		}
 
 		int slot = player.inventory.currentItem;
@@ -99,26 +99,25 @@ public class ClientTickHandler {
 				}
 			}
 
-			if (target.typeOfHit == RayTraceResult.Type.BLOCK) {
+			if (target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 				World world = player.worldObj;
 				BlockPos pos = target.getBlockPos();
-				IBlockState state = player.worldObj.getBlockState(pos);
 
-				validItems.add(world.getBlockState(pos).getBlock().getPickBlock(state, target, world, pos, player));
+				validItems.add(world.getBlockState(pos).getBlock().getPickBlock(target, world, pos, player));
 				validItems.add(Util.getBrokenBlock(world, pos));
 				validItems.add(new ItemStack(world.getBlockState(pos).getBlock(), 1));
-			} else if (target.typeOfHit == RayTraceResult.Type.ENTITY) {
+			} else if (target.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
 				validItems.add(target.entityHit.getPickedResult(target));
 			}
 
-			ItemStack held = player.getHeldItem(EnumHand.MAIN_HAND);
+			ItemStack held = player.getHeldItem();
 			for (ItemStack stack : validItems) {
 				for (int invSlot = 0; invSlot < player.inventory.mainInventory.length; invSlot++) {
 					if (stack != null) {
 						ItemStack possibleItem = player.inventory.mainInventory[invSlot];
 						if (possibleItem != null) {
 							if (possibleItem.isItemEqual(stack)) {
-								mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
+								mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
 								if (invSlot < 9) {
 									player.inventory.currentItem = invSlot;
 									return;
@@ -135,9 +134,9 @@ public class ClientTickHandler {
 			ticksSincePressed = 0;
 			boolean targetIsEntity = false;
 			IBlockState state = null;
-			if (target.typeOfHit == RayTraceResult.Type.BLOCK) {
+			if (target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 				state = player.worldObj.getBlockState(target.getBlockPos());
-			} else if (target.typeOfHit == RayTraceResult.Type.ENTITY) {
+			} else if (target.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
 				targetIsEntity = true;
 			}
 
@@ -145,7 +144,7 @@ public class ClientTickHandler {
 				return;
 			}
 
-			ItemStack held = player.getHeldItem(EnumHand.MAIN_HAND);
+			ItemStack held = player.getHeldItem();
 			int bestSlot = -1;
 			if (targetIsEntity) {
 				bestSlot = Util.getHighestDamageItemSlot(player);
@@ -157,7 +156,7 @@ public class ClientTickHandler {
 				return;
 			}
 
-			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
 			if (bestSlot < 9) {
 				player.inventory.currentItem = bestSlot;
 				return;

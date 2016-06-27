@@ -14,10 +14,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class Util {
@@ -77,7 +76,7 @@ public class Util {
 					if (state.getBlock().isToolEffective(toolClass, state)) {
 						possibleItems.add(invSlot);
 					} else if (state.getBlock().getHarvestLevel(state) == -1) {
-						if (state.getBlock().getMaterial(state) == Material.rock && toolClasses.contains("pickaxe")) {
+						if (state.getBlock().getMaterial() == Material.rock && toolClasses.contains("pickaxe")) {
 							possibleItems.add(invSlot);
 						}
 					}
@@ -95,7 +94,7 @@ public class Util {
 					ItemStack bestStack = player.inventory.mainInventory[bestSlot];
 					Item possibleTool = stack.getItem();
 					Item bestTool = bestStack.getItem();
-					if (stack.getStrVsBlock(state) > bestStack.getStrVsBlock(state)) {
+					if (possibleTool.getDigSpeed(stack, state) > bestTool.getDigSpeed(bestStack, state)) {
 						bestSlot = invSlot;
 					}
 				}
@@ -108,7 +107,6 @@ public class Util {
 	public static int getHighestDamageItemSlot(EntityPlayer player) {
 		int highestDamageSlot = -1;
 		double highestDamage = -1D;
-		double highestSpeed = -1D;
 		for (int invSlot = 0; invSlot < player.inventory.mainInventory.length; invSlot++) {
 			ItemStack stack = player.inventory.mainInventory[invSlot];
 			if (stack != null) {
@@ -116,8 +114,8 @@ public class Util {
 					highestDamageSlot = invSlot;
 				} else {
 					double damage = -1D;
-					Multimap map = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-					Collection collection = map.get(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName());
+					Multimap attributes = stack.getAttributeModifiers();
+					Collection collection = attributes.get(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
 					for (Object o : collection) {
 						if (o instanceof AttributeModifier) {
 							AttributeModifier modifier = (AttributeModifier) o;
@@ -130,23 +128,6 @@ public class Util {
 					if (damage > highestDamage) {
 						highestDamage = damage;
 						highestDamageSlot = invSlot;
-					} else if (damage == highestDamage) {
-						double speed = -1D;
-						Multimap map1 = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-						Collection collection1 = map1.get(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName());
-						for (Object o : collection1) {
-							if (o instanceof AttributeModifier) {
-								AttributeModifier modifier = (AttributeModifier) o;
-								if (modifier.getName().equals("Weapon modifier") || modifier.getName().equals("Tool modifier")) {
-									speed = modifier.getAmount();
-								}
-							}
-						}
-						
-						if (speed < highestSpeed) {
-							highestSpeed = speed;
-							highestDamageSlot = invSlot;
-						}
 					}
 				}
 			}
@@ -157,7 +138,7 @@ public class Util {
 
 	public static void swapItems(EntityPlayer player, ItemStack held, int invSlot, ItemStack[] hotbar) {
 		int targetSlot = player.inventory.currentItem;
-		Minecraft.getMinecraft().playerController.pickItem(invSlot);
+		Minecraft.getMinecraft().playerController.windowClick(player.inventoryContainer.windowId, invSlot, targetSlot, 2, player);
 		if (held == null) {
 			return;
 		}
