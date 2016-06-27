@@ -44,12 +44,12 @@ public class Util {
 	}
 
 	public static ItemStack getBrokenBlock(World world, BlockPos pos) {
-		Block block = world.getBlockState(pos).getBlock();
-		if (block == null) {
+		Block b = world.getBlockState(pos).getBlock();
+		if (b == null) {
 			return null;
 		}
 
-		List<ItemStack> dropped = block.getDrops(world, pos, world.getBlockState(pos), 0);
+		List<ItemStack> dropped = b.getDrops(world, pos, world.getBlockState(pos), 0);
 		if (dropped == null || dropped.isEmpty()) {
 			return null;
 		}
@@ -77,7 +77,7 @@ public class Util {
 					if (state.getBlock().isToolEffective(toolClass, state)) {
 						possibleItems.add(invSlot);
 					} else if (state.getBlock().getHarvestLevel(state) == -1) {
-						if (state.getBlock().getMaterial(state) == Material.ROCK && toolClasses.contains("pickaxe")) {
+						if (state.getBlock().getMaterial(state) == Material.rock && toolClasses.contains("pickaxe")) {
 							possibleItems.add(invSlot);
 						}
 					}

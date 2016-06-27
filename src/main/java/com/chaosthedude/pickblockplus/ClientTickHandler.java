@@ -71,7 +71,7 @@ public class ClientTickHandler {
 
 		if (player.capabilities.isCreativeMode) {
 			ForgeHooks.onPickBlock(target, player, mc.theWorld);
-			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
 			return;
 		}
 
@@ -118,7 +118,7 @@ public class ClientTickHandler {
 						ItemStack possibleItem = player.inventory.mainInventory[invSlot];
 						if (possibleItem != null) {
 							if (possibleItem.isItemEqual(stack)) {
-								mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+								mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
 								if (invSlot < 9) {
 									player.inventory.currentItem = invSlot;
 									return;
@@ -157,7 +157,7 @@ public class ClientTickHandler {
 				return;
 			}
 
-			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
 			if (bestSlot < 9) {
 				player.inventory.currentItem = bestSlot;
 				return;
