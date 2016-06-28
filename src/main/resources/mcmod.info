@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
+  "modid": "PickBlockPlus",
+  "name": "Pick Block Plus",
+  "description": "Makes several improvements to the vanilla pick block function.",
+  "version": "1.1.1",
+  "mcversion": "1.7.10",
+  "url": "http://curse.com/mc-mods/minecraft/242943-pick-block-plus",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["ChaosTheDude"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
