@@ -18,15 +18,16 @@ plugins {
 }
 */
 
-version = "1.10-1.1.1"
+version = "1.10.2-1.1.1"
 group= "com.chaosthedude.pickblockplus"
 archivesBaseName = "PickBlockPlus"
 
 minecraft {
-    version = "1.10-12.18.0.1986-1.10.0"
+    version = "1.10.2-12.18.0.2006-1.10.0"
     runDir = "run"
 
     mappings = "snapshot_20160518"
+    // makeObfSourceJar = false
 }
 
 dependencies {

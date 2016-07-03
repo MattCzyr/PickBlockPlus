@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
-@Mod(modid = PickBlockPlus.MODID, name = PickBlockPlus.NAME, version = PickBlockPlus.VERSION, acceptedMinecraftVersions = "[1.10]", clientSideOnly = true)
+@Mod(modid = PickBlockPlus.MODID, name = PickBlockPlus.NAME, version = PickBlockPlus.VERSION, acceptedMinecraftVersions = "[1.10,1.10.2]", clientSideOnly = true)
 
 public class PickBlockPlus {
 
