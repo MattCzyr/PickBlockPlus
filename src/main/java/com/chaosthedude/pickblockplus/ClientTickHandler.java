@@ -113,9 +113,9 @@ public class ClientTickHandler {
 
 			ItemStack held = player.getHeldItem(EnumHand.MAIN_HAND);
 			for (ItemStack stack : validItems) {
-				for (int invSlot = 0; invSlot < player.inventory.mainInventory.length; invSlot++) {
+				for (int invSlot = 0; invSlot < player.inventory.mainInventory.size(); invSlot++) {
 					if (stack != null) {
-						ItemStack possibleItem = player.inventory.mainInventory[invSlot];
+						ItemStack possibleItem = player.inventory.mainInventory.get(invSlot);
 						if (possibleItem != null) {
 							if (possibleItem.isItemEqual(stack)) {
 								mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));

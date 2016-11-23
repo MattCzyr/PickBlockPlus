@@ -1,11 +1,11 @@
 [
 {
-  "modid": "PickBlockPlus",
+  "modid": "pickblockplus",
   "name": "Pick Block Plus",
-  "description": "Makes several improvements to the vanilla pick block function.",
-  "version": "1.1.1",
-  "mcversion": "1.10.2",
-  "url": "http://curse.com/mc-mods/minecraft/242943-pick-block-plus",
+  "description": "Significantly improves the vanilla pick block function.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://minecraft.curseforge.com/projects/pick-block-plus",
   "updateUrl": "",
   "authorList": ["ChaosTheDude"],
   "credits": "",

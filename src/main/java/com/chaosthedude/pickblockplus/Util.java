@@ -61,7 +61,7 @@ public class Util {
 				return null;
 			}
 
-			main.stackSize += other.stackSize;
+			main.func_190917_f(other.func_190916_E());
 		}
 
 		return main;
@@ -69,8 +69,8 @@ public class Util {
 	
 	public static int getMostEffectiveItemSlot(EntityPlayer player, IBlockState state) {
 		List<Integer> possibleItems = new ArrayList();
-		for (int invSlot = 0; invSlot < player.inventory.mainInventory.length; invSlot++) {
-			ItemStack possibleItem = player.inventory.mainInventory[invSlot];
+		for (int invSlot = 0; invSlot < player.inventory.mainInventory.size(); invSlot++) {
+			ItemStack possibleItem = player.inventory.mainInventory.get(invSlot);
 			if (possibleItem != null) {
 				Set<String> toolClasses = possibleItem.getItem().getToolClasses(possibleItem);
 				for (String toolClass : toolClasses) {
@@ -87,12 +87,12 @@ public class Util {
 
 		int bestSlot = -1;
 		for (int invSlot : possibleItems) {
-			ItemStack stack = player.inventory.mainInventory[invSlot];
+			ItemStack stack = player.inventory.mainInventory.get(invSlot);
 			if (stack != null) {
 				if (bestSlot == -1) {
 					bestSlot = invSlot;
 				} else {
-					ItemStack bestStack = player.inventory.mainInventory[bestSlot];
+					ItemStack bestStack = player.inventory.mainInventory.get(bestSlot);
 					Item possibleTool = stack.getItem();
 					Item bestTool = bestStack.getItem();
 					if (stack.getStrVsBlock(state) > bestStack.getStrVsBlock(state)) {
@@ -109,8 +109,8 @@ public class Util {
 		int highestDamageSlot = -1;
 		double highestDamage = -1D;
 		double highestSpeed = -1D;
-		for (int invSlot = 0; invSlot < player.inventory.mainInventory.length; invSlot++) {
-			ItemStack stack = player.inventory.mainInventory[invSlot];
+		for (int invSlot = 0; invSlot < player.inventory.mainInventory.size(); invSlot++) {
+			ItemStack stack = player.inventory.mainInventory.get(invSlot);
 			if (stack != null) {
 				if (highestDamageSlot == -1) {
 					highestDamageSlot = invSlot;

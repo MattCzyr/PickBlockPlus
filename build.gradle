@@ -2,9 +2,8 @@ buildscript {
     repositories {
         jcenter()
         maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+		    url = "http://files.minecraftforge.net/maven"
+		}
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -12,22 +11,20 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-/*
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
-}
-*/
 
-version = "1.10.2-1.1.1"
+version = "1.11-1.1.1"
 group= "com.chaosthedude.pickblockplus"
 archivesBaseName = "PickBlockPlus"
 
-minecraft {
-    version = "1.10.2-12.18.0.2006-1.10.0"
-    runDir = "run"
+sourceCompatibility = targetCompatibility = "1.6"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.6"
+}
 
-    mappings = "snapshot_20160518"
-    // makeObfSourceJar = false
+minecraft {
+    version = "1.11-13.19.0.2157"
+    runDir = "run"
+    mappings = "snapshot_20161111"
 }
 
 dependencies {
