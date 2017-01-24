@@ -61,7 +61,7 @@ public class Util {
 				return null;
 			}
 
-			main.func_190917_f(other.func_190916_E());
+			main.grow(other.getCount());
 		}
 
 		return main;
@@ -117,7 +117,7 @@ public class Util {
 				} else {
 					double damage = -1D;
 					Multimap map = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-					Collection collection = map.get(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName());
+					Collection collection = map.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 					for (Object o : collection) {
 						if (o instanceof AttributeModifier) {
 							AttributeModifier modifier = (AttributeModifier) o;
@@ -133,7 +133,7 @@ public class Util {
 					} else if (damage == highestDamage) {
 						double speed = -1D;
 						Multimap map1 = stack.getAttributeModifiers(EntityEquipmentSlot.MAINHAND);
-						Collection collection1 = map1.get(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName());
+						Collection collection1 = map1.get(SharedMonsterAttributes.ATTACK_SPEED.getName());
 						for (Object o : collection1) {
 							if (o instanceof AttributeModifier) {
 								AttributeModifier modifier = (AttributeModifier) o;

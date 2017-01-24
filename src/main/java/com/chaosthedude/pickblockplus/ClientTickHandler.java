@@ -40,7 +40,7 @@ public class ClientTickHandler {
 	}
 
 	private void checkPickBlockKey() {
-		EntityPlayer player = mc.thePlayer;
+		EntityPlayer player = mc.player;
 		if (player == null) {
 			return;
 		}
@@ -70,7 +70,7 @@ public class ClientTickHandler {
 		}
 
 		if (player.capabilities.isCreativeMode) {
-			ForgeHooks.onPickBlock(target, player, mc.theWorld);
+			ForgeHooks.onPickBlock(target, player, mc.world);
 			mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 			return;
 		}
@@ -100,9 +100,9 @@ public class ClientTickHandler {
 			}
 
 			if (target.typeOfHit == RayTraceResult.Type.BLOCK) {
-				World world = player.worldObj;
+				World world = player.world;
 				BlockPos pos = target.getBlockPos();
-				IBlockState state = player.worldObj.getBlockState(pos);
+				IBlockState state = player.world.getBlockState(pos);
 
 				validItems.add(world.getBlockState(pos).getBlock().getPickBlock(state, target, world, pos, player));
 				validItems.add(Util.getBrokenBlock(world, pos));
@@ -136,7 +136,7 @@ public class ClientTickHandler {
 			boolean targetIsEntity = false;
 			IBlockState state = null;
 			if (target.typeOfHit == RayTraceResult.Type.BLOCK) {
-				state = player.worldObj.getBlockState(target.getBlockPos());
+				state = player.world.getBlockState(target.getBlockPos());
 			} else if (target.typeOfHit == RayTraceResult.Type.ENTITY) {
 				targetIsEntity = true;
 			}
